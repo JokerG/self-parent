@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+   
+	<!-- 日志输出 -->
+    <bean id="log-filter" class="com.alibaba.druid.filter.logging.Slf4jLogFilter">
+        <property name="dataSourceLogEnabled" value="false" />
+        <property name="connectionLogEnabled" value="false" />
+        <property name="connectionLogErrorEnabled" value="false" />
+        <property name="statementLogEnabled" value="false" />
+        <property name="statementLogErrorEnabled" value="false" />
+        <property name="resultSetLogEnabled" value="false" />
+        <property name="resultSetLogErrorEnabled" value="false" />
+        <property name="connectionConnectBeforeLogEnabled" value="false" />
+        <property name="connectionConnectAfterLogEnabled" value="false" />
+        <property name="connectionCommitAfterLogEnabled" value="false" />
+        <property name="connectionRollbackAfterLogEnabled" value="false" />
+        <property name="connectionCloseAfterLogEnabled" value="false" />
+        <property name="statementCreateAfterLogEnabled" value="false" />
+        <property name="statementPrepareAfterLogEnabled" value="false" />
+        <property name="statementPrepareCallAfterLogEnabled" value="false" />
+        <property name="statementExecuteAfterLogEnabled" value="false" />
+        <property name="statementExecuteQueryAfterLogEnabled" value="false" />
+        <property name="statementExecuteUpdateAfterLogEnabled" value="false" />
+        <property name="statementExecuteBatchAfterLogEnabled" value="false" />
+        <property name="statementCloseAfterLogEnabled" value="false" />
+        <property name="statementParameterSetLogEnabled" value="false" />
+        <property name="resultSetNextAfterLogEnabled" value="false" />
+        <property name="resultSetOpenAfterLogEnabled" value="false" />
+        <property name="resultSetCloseAfterLogEnabled" value="false" />
+    </bean>
+	<!-- 超长SQL执行日志输出 -->
+    <bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+        <property name="slowSqlMillis" value="30000" />
+        <property name="logSlowSql" value="true" />
+        <property name="mergeSql" value="true" />
+    </bean>
+     
+    <!-- 防止SQL注入、其他拦截等 -->
+    <bean id="wall-filter" class="com.alibaba.druid.wall.WallFilter"></bean>
+
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+        destroy-method="close">
+        <property name="driverClassName">
+            <value>${jdbc.driverClass}</value>
+        </property>
+        <property name="url">
+            <value>${jdbc.url}</value>
+        </property>
+        <property name="username">
+            <value>${jdbc.username}</value> 
+        </property>
+        <property name="password">
+            <value>${jdbc.password}</value>
+        </property>
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize">
+            <value>5</value>
+        </property>
+        <property name="minIdle">
+            <value>5</value>
+        </property>
+        <property name="maxActive">
+            <value>50</value>
+        </property>
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait">
+            <value>60000</value>
+        </property>
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis">
+            <value>60000</value>
+        </property>
+        <!-- 配置保活处理，在1.0.28版本中解决网络断开问题，当空闲时间超过minEvictableIdleTimeMillis，则会执行keepAlive操作 -->
+        <property name="keepAlive">
+            <value>true</value>
+        </property>
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis">
+            <value>300000</value>
+        </property>
+        <!-- 配置一个连接在池中最大生存的时间，单位是毫秒，在1.0.18版本中解决网络断开问题 -->
+        <property name="maxEvictableIdleTimeMillis">
+            <value>600000</value>
+        </property>        
+        <property name="numTestsPerEvictionRun">
+            <value>50</value>
+        </property>
+        <property name="validationQuery">
+            <value>select 'x' from dual</value>
+        </property>
+        <property name="testWhileIdle">
+            <value>true</value>
+        </property> 
+        <!-- 打开检查,用异步线程evict进行检查 -->
+        <property name="testOnBorrow">
+            <value>false</value>
+        </property>
+        <property name="testOnReturn">
+            <value>false</value>
+        </property>
+        <!-- 标识密码是做过加密处理的 -->
+        <!-- java -cp druid-1.0.29.jar com.alibaba.druid.filter.config.ConfigTools you_password -->
+        <property name="filters">
+        	<value>config</value>
+        </property>
+        <property name="connectionProperties">
+        	<value>config.decrypt=true;config.decrypt.key=${publicKey}</value>
+        </property>
+        <property name="proxyFilters"> 
+           <list>  
+               <ref bean="stat-filter" /> 
+               <ref bean="wall-filter" />  
+               <ref bean="log-filter" /> 
+           </list> 
+        </property>
+    </bean>
+    
+</beans>
