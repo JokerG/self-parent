@@ -6,7 +6,6 @@
   <artifactId>self-parent</artifactId>
   <version>1.0.0</version>
   <packaging>pom</packaging>
-
   <distributionManagement>
     <site>
       <id>website</id>
@@ -194,6 +193,7 @@
   		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-source-plugin</artifactId>
+			<version>3.0.1</version>
 			<executions>
 				<execution>
 					<id>attach-sources</id>
@@ -210,6 +210,7 @@
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-compiler-plugin</artifactId>
+			<version>3.7.0</version>
 			<configuration>
 				<source>${java_source_version}</source>
 				<target>${java_target_version}</target>
@@ -276,6 +277,7 @@
 	</profiles>
   <modules>
   	<module>self-common</module>
+	<module>self-code-generate</module>
   	<module>self-base-dao</module>
   	<module>self-service</module>
     <module>self-web</module>
