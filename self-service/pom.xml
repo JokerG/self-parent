@@ -6,4 +6,10 @@
     <version>1.0.0</version>
   </parent>
   <artifactId>self-service</artifactId>
+  <dependencies>
+    <dependency>
+      <groupId>com.self</groupId>
+      <artifactId>self-base-dao</artifactId>
+    </dependency>
+  </dependencies>
 </project>

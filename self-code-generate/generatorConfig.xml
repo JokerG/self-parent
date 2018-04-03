@@ -25,30 +25,35 @@
       <sqlMapGenerator  targetPackage="mybatis/mapper/base"
           targetProject="../self-base-dao/src/main/resources">
         <property  name="enableSubPackages"  value="true"/>
- 
       </sqlMapGenerator>
  
       <!--自动生成的*Mapper.java存放路径 -->
       <javaClientGenerator type="XMLMAPPER"
-         targetPackage="com.self.base.dao"  targetProject="../self-base-dao/src/main/java">
+         targetPackage="com.self.dao.base.mapper"  targetProject="../self-base-dao/src/main/java">
         <property  name="enableSubPackages"  value="true"/>
       </javaClientGenerator>
      
 	  <table  tableName="upms_user"   domainObjectName="UpmsUser">
 	     <generatedKey  column="user_id"  sqlStatement="select uuid_short()"   identity="false"/>
+	     <columnOverride column="status" javaType="java.lang.Integer"></columnOverride>
+	     <columnOverride column="version" javaType="java.lang.Integer"></columnOverride>
 	  </table>
 	  <table  tableName="upms_permission"   domainObjectName="UpmsPermission">
+	  	<generatedKey  column="permission_id"  sqlStatement="select uuid_short()"   identity="false"/>
+	  	<columnOverride column="type" javaType="java.lang.Integer"></columnOverride>
+	    <columnOverride column="status" javaType="java.lang.Integer"></columnOverride>
+	    <columnOverride column="version" javaType="java.lang.Integer"></columnOverride>
 	  </table>
 	  <table  tableName="upms_role"   domainObjectName="UpmsRole">
 	     <generatedKey  column="role_id"  sqlStatement="select uuid_short()"   identity="false"/>
+	     <columnOverride column="version" javaType="java.lang.Integer"></columnOverride>
 	  </table>
 	  <table  tableName="upms_role_permission"   domainObjectName="UpmsRolePermission">
-	     <generatedKey  column="permission_id"  sqlStatement="select uuid_short()"   identity="false"/>
+	     <generatedKey  column="role_permission_id"  sqlStatement="select uuid_short()"   identity="false"/>
 	  </table>
 	  <table  tableName="upms_user_role"   domainObjectName="UpmsUserRole">
-	     <generatedKey  column="USER_ID"  sqlStatement="select uuid_short()"   identity="false"/>
+	     <generatedKey  column="user_role_id"  sqlStatement="select uuid_short()"   identity="false"/>
 	  </table>
-	       
    </context>
  
 </generatorConfiguration>

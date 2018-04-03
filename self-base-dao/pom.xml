@@ -6,4 +6,20 @@
     <version>1.0.0</version>
   </parent>
   <artifactId>self-base-dao</artifactId>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.self</groupId>
+  		<artifactId>self-common</artifactId>
+  	</dependency>
+  	<!--mybatis依赖 -->
+    <dependency>
+        <groupId>org.mybatis</groupId>
+        <artifactId>mybatis</artifactId>
+    </dependency>
+    <!-- mybatis/spring包 -->
+    <dependency>
+        <groupId>org.mybatis</groupId>
+        <artifactId>mybatis-spring</artifactId>
+    </dependency>
+  </dependencies>
 </project>
